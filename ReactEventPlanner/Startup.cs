@@ -66,7 +66,6 @@ namespace ReactEventPlanner
                     spa.Options.SourcePath = "ClientApp";
                     //spa.UseReactDevelopmentServer(npmScript: "start");
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
-                    spa.UseReactDevelopmentServer(npmScript: "start");
                 }
 
                 // Use this or similar logic later to detect if React is using a production build
