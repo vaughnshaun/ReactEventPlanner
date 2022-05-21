@@ -42,14 +42,17 @@ I		iv. dentityUserClaim
 	b. Install-Package Microsoft.EntityFrameworkCore.SqlServer // The database provider for SQL Server
 	c. Install-Package Microsoft.EntityFrameworkCore.Tools // This is for database migrations
 	d. Add connection string to appsettings.json
+
 		```
 		"ConnectionStrings": {
 			"DefaultConnection": "Server=LocalHost;Database=ASPNetCoreIdentity;Trusted_Connection=True;MultipleActiveResultSets=true"
 		}
 		```
+
 	e. Extend IdentityUser to make your own custom ApplicationUser
 10. Get access to database
 	a. Inherit from DBContext to gain APIs that access the database
+
 		```
 		public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
 		{
@@ -59,19 +62,25 @@ I		iv. dentityUserClaim
 			}
 		}
 		```
+
 	b. Register the database context
+
 		```
 		services.AddDbContext<ApplicationDbContext>(options =>
 			options.UseSqlServer(
 				Configuration.GetConnectionString("DefaultConnection")
 		));
 		```
+
 	c. Create the Database
+
 		```
 		add-migration v1
 		update-database
 		```
+
 	d. Register the Identity Services
+
 		```
 		services.AddIdentity<IdentityUser, IdentityRole>(
 			options => {
@@ -82,11 +91,14 @@ I		iv. dentityUserClaim
 		)
 		.AddEntityFrameworkStores<ApplicationDbContext>
 		```
+
 	e. Add Authentication Middleware (add after routing and before UseEndpoints and UseAuthorization)
+
 		```
 		app.UseAuthentication();
 		app.UseAuthorization();
 		```
+
 	f. Configure the cookie options such as redirect url and expiration
 9. Sql Server SHA2_256 salt and hash HASHBYTES('SHA2_256', lower(@EmailAddress) + @Password + @salt)
 
